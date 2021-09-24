@@ -1,57 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="fSelect.css">
+
+    <script src="jquery-2.2.3.min.js"></script>
+
+    <script src="fSelect.js"></script>
+    <script src="ikrPluginsForfSelect.js"></script>
 </head>
+
 <body>
 
 
-	<form id="myform">
-		<label for="name">Name</label>
-		<input type="text" name="name" id="name" />
-	
-		<label for="email">Email</label>
-		<input type="email" name="email" id="email" />
-	
-	  <p>
-	     <input type="checkbox" name="topics" id="javascript" value="javascript" />
-	     <label for="javascript">JavaScript</label>
-	
-	     <input type="checkbox" name="topics" id="html" value="html" />
-	     <label for="html">HTML</label>
-	
-	     <input type="checkbox" name="topics" id="css" value="css" />
-	     <label for="css">CSS</label>
-	   </p>
-	
-		<button type="submit">Submit</button>
-	  </form>
-	
+    <form id="myform">
+        <label for="name">Name</label>
+        <input type="text" name="name" id="name" />
+
+        <label for="email">Email</label>
+        <input type="email" name="email" id="email" />
+
+
+        <select name="topics" id="cboStudent"></select>
+        <label for="css">CSS</label>
+
+
+        <button type="submit">Submit</button>
+    </form>
 
 
 
-<script>
-	function handleSubmit(event) {
-    event.preventDefault();
 
-    const data = new FormData(event.target);
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
 
-    const value = Object.fromEntries(data.entries());
+            const data = new FormData(event.target);
 
-  value.topics = data.getAll("topics");
+            const value = Object.fromEntries(data.entries());
 
-    console.log({ value });
+            value.topics = data.getAll("topics");
 
-	localStorage.setItem('myvalu', JSON.stringify(value))
-  }
+            console.log({ value });
 
-  const form = document.getElementById('myform');
-  form.addEventListener("submit", handleSubmit);
+            localStorage.setItem('myvalu', JSON.stringify(value))
+        }
 
 
-</script>
+        $(document).ready(function () {
+            let alldata = []
+         let mydata = ['batsman', 'bowler' , 'all-rounder' ,'wicket-keeper']
+            for (var i = 0; i <mydata.length; i++) {
+                alldata.push({
+                    studentId: mydata[i],
+                    Name:  mydata[i],
+                });
+            }
+            // $('#btnload').click(function (){
+
+
+            $("#cboStudent").ikrLoadfSelectCombo({
+                List: alldata,
+                DisplayText: "Name", //Display Property name
+                OtherProperties: "studentId,Name", //OtherProperties means those properties of object that we need for use
+                PrimaryKey: "studentId", //PrimaryKey
+            });
+        });
+        // })
+
+
+
+        const form = document.getElementById('myform');
+        form.addEventListener("submit", handleSubmit);
+
+
+    </script>
 </body>
+
 </html>
